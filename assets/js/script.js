@@ -34,8 +34,11 @@ searchBtn.addEventListener('click', function(event) {
         })
         .then(oneCallData => {
             console.log(oneCallData);
-            renderDailyForecast(oneCallData) 
-                
+            renderDailyForecast(oneCallData)
+        })
+        .then(oneCallData => {    
+            renderFiveDayForecast(oneCallData) 
+                     
         })
     
         // DOM manipulation to HTML;
@@ -70,13 +73,50 @@ searchBtn.addEventListener('click', function(event) {
         humidityEl.textContent = "Humidity: " + humidity;
         uvIndexEl.textContent = "UV Index: " + uvi;
 
-            
-      }
+        
+    }
     
     // create five day forecast cards
-    
+    function renderFiveDayForecast(oneCallData) {
+        const name = data.name;
+        const temp = oneCallData.current.temp;
+        const wind_speed = oneCallData.current.wind_speed;
+        const humidity = oneCallData.current.humidity;
+        const uvi = oneCallData.current.uvi;
+        const icon = oneCallData.current.weather[0].icon;
+        
+            
+        
+        
+        var nameEl = document.createElement('h1');
+        var tempEl = document.createElement('div');
+        var windEl = document.createElement('div');
+        var humidityEl = document.createElement('div');
+        var uvIndexEl = document.createElement('div');
+        var iconEl = document.createElement('img');
+        var iconDesEl = document.createElement('div');
+        iconEl.src = 'https://openweathermap.org/img/w/' + icon + '.png';
+        
+        var today = moment (); 
+        $(".currentWeather").text(today.format("MMM Do, YYYY"));
 
-     })
+        fiveDayForecast.append(nameEl, tempEl, windEl, humidityEl, uvIndexEl, iconEl, iconDesEl);
+        nameEl.textContent = "" + name;
+        tempEl.textContent = "Temp: " + temp;
+        windEl.textContent = "Wind Speed: " + wind_speed;
+        humidityEl.textContent = "Humidity: " + humidity;
+        uvIndexEl.textContent = "UV Index: " + uvi;
+        
+        var forecast = fiveDayForecast.list;
+        for(var i=5; i < forecast.length; i=i+8){
+            var forecastEl=document.createElement("div");
+            forecastEl.classList = "card bg-primary text-light m-2";
+            console.log(dailyForecast)
+
+       
+      }
+     }
+    })
  })
  // Dynamically create List item from array for city search history
  function renderPastSearches() {
