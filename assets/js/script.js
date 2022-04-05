@@ -5,14 +5,15 @@ var fiveDayForecast = document.querySelector('.fiveDayForecast');
 var listSearchedCities = document.querySelector('.listSearchedCities');
 let pastSearches = JSON.parse(window.localStorage.getItem('pastSearches')) || [];
 
-//first API call
+
 searchBtn.addEventListener('click', function(event) {
     event.preventDefault();
     
-    // clear previous current weather and five day forecast
+    // clear current weather and five day forecast
     currentWeather.innerHTML = "";
     fiveDayForecast.innerHTML = "";
     
+    //first API call
     var cityName = document.querySelector('#cityInput').value;
     var requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=a7715944e1c51c0dc7f0c45921d07581`
 
@@ -70,15 +71,23 @@ searchBtn.addEventListener('click', function(event) {
         var humidityEl = document.createElement('div');
         var uvIndexEl = document.createElement('div');
         var iconEl = document.createElement('img');
-        iconEl.classList = ""
         var iconDesEl = document.createElement('div');
         iconEl.src = 'https://openweathermap.org/img/w/' + icon + '.png';
         
         var today = moment (); 
         $(".currentWeather").text(today.format("MMM Do, YYYY"));
 
-        currentWeather.append(nameEl, tempEl, windEl, humidityEl, uvIndexEl, iconEl, iconDesEl);
-        nameEl.textContent = "" + name;
+        currentWeather.append(
+            nameEl,
+            iconEl, 
+            iconDesEl,
+            tempEl, 
+            windEl, 
+            humidityEl, 
+            uvIndexEl 
+            );
+        
+            nameEl.textContent = "" + name;
         tempEl.textContent = "Temp: " + temp;
         windEl.textContent = "Wind Speed: " + wind_speed;
         humidityEl.textContent = "Humidity: " + humidity;
@@ -103,7 +112,7 @@ searchBtn.addEventListener('click', function(event) {
         
         //create a "card div" to hold our separate forecast
         var cardDiv = document.createElement("div");
-        cardDiv.classList = "card-body text-center mb-4 bg-primary text-light";
+        cardDiv.classList = "card-body text-left me-3 bg-secondary text-light col-2 border border-dark";
         var tempEl = document.createElement('div');
         var windEl = document.createElement('div');
         var humidityEl = document.createElement('div');
@@ -115,12 +124,13 @@ searchBtn.addEventListener('click', function(event) {
         //append all the forecast data to the card
         cardDiv.append(
             dateEl,
+            iconEl,
+            iconDesEl,
             tempEl,
             windEl,
             humidityEl,
-            uvIndexEl,
-            iconEl,
-            iconDesEl
+            uvIndexEl
+            
         );
         
         //append the card to the forecast div
@@ -138,8 +148,6 @@ searchBtn.addEventListener('click', function(event) {
     listSearchedCities.innerHTML = "";
         for(let i = 0; i < pastSearches.length; i++) {
         const historyItem = document.createElement("input");
-        historyItem.setAttribute("type","text");
-        historyItem.setAttribute("readonly",true);
         historyItem.setAttribute("class", "form-control d-block bg-white");
         historyItem.setAttribute("value", pastSearches[i]);
         historyItem.addEventListener("click",function() {

@@ -7,17 +7,13 @@ h5 {
     background-color: #008CBA; /* blue */
     border: none;
     color: white;
-    padding: 8px 111px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
 }
 
 .currentWeather {
     border-style: solid;
     border-color: lightgray;
     font-size: large;
+    border-width: 1px;
 }
 
 img {
@@ -31,4 +27,8 @@ img {
 
 .pastSearches {
     background-color: lightgrey;
+}
+
+.fiveDayForecast {
+    padding-left: 75px;
 }
