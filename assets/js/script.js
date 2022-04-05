@@ -87,15 +87,25 @@ searchBtn.addEventListener('click', function(event) {
             uvIndexEl 
             );
         
-            nameEl.textContent = "" + name;
-        tempEl.textContent = "Temp: " + temp;
-        windEl.textContent = "Wind Speed: " + wind_speed;
-        humidityEl.textContent = "Humidity: " + humidity;
+        nameEl.textContent = "" + name;
+        tempEl.textContent = "Temp: " + temp + " °F";
+        windEl.textContent = "Wind: " + wind_speed + " MPH";
+        humidityEl.textContent = "Humidity: " + humidity  + " %";
         uvIndexEl.textContent = "UV Index: " + uvi;
 
-        
+        // add function
+       if (uvi >= 0 && uvi <=2) {
+        $(this).addClass(".bg.success");
     }
-    
+       else if (uvi >= 3 && uvi <= 5) {
+       $(this).removeClass(".bg.success");
+       $(this).addClass(".bg-warning");
+    }
+       else {
+        $(this).removeClass(".bg.warning");
+        $(this).addClass(".bg-danger");
+    }
+}
     // create five day forecast cards
     function renderFiveDayForecast(daily) {
         
@@ -103,7 +113,6 @@ searchBtn.addEventListener('click', function(event) {
         const temp = daily.temp.day;
         const wind_speed = daily.wind_speed;
         const humidity = daily.humidity;
-        const uvi = daily.uvi;
         const icon = daily.weather[0].icon;
         
         // moment to convert the unix timestamp to date format
@@ -112,11 +121,10 @@ searchBtn.addEventListener('click', function(event) {
         
         //create a "card div" to hold our separate forecast
         var cardDiv = document.createElement("div");
-        cardDiv.classList = "card-body text-left me-3 bg-secondary text-light col-2 border border-dark";
+        cardDiv.classList = "card-body text-left me-3 bg-secondary text-light col-2";
         var tempEl = document.createElement('div');
         var windEl = document.createElement('div');
         var humidityEl = document.createElement('div');
-        var uvIndexEl = document.createElement('div');
         var iconEl = document.createElement('img');
         var iconDesEl = document.createElement('div');
         iconEl.src = 'https://openweathermap.org/img/w/' + icon + '.png';
@@ -128,19 +136,16 @@ searchBtn.addEventListener('click', function(event) {
             iconDesEl,
             tempEl,
             windEl,
-            humidityEl,
-            uvIndexEl
-            
+            humidityEl            
         );
         
         //append the card to the forecast div
         fiveDayForecast.append(cardDiv);
         dateEl.textContent = time;       
-        tempEl.textContent = "Temp: " + temp;
-        windEl.textContent = "Wind Speed: " + wind_speed;
-        humidityEl.textContent = "Humidity: " + humidity;
-        uvIndexEl.textContent = "UV Index: " + uvi;
-        
+        tempEl.textContent = "Temp: " + temp + " °F";
+        windEl.textContent = "Wind: " + wind_speed + " MPH";
+        humidityEl.textContent = "Humidity: " + humidity + " %";
+                
     }
     
  // Dynamically create List item from array for city search history
