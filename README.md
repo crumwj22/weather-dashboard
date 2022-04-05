@@ -34,4 +34,4 @@ THEN I am again presented with current and future conditions for that city
 <a href="https://crumwj22.github.io/weather-dashboard/">Weather Dashboard</a>
 
 
-<img src="assets/images/weather-dashboard-image.png">
+<img src="assets/images/weather-dashboard-pic.png"/>
