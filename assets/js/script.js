@@ -6,15 +6,20 @@ var listSearchedCities = document.querySelector('.listSearchedCities');
 let pastSearches = JSON.parse(window.localStorage.getItem('pastSearches')) || [];
 
 
-searchBtn.addEventListener('click', function(event) {
+var triggerSearch = searchBtn.addEventListener('click', function(event) {
     event.preventDefault();
-    
+    var cityName = document.querySelector('#cityInput').value;
+
+    initalSearch(cityName);
+})
+
+function initalSearch(cityName) {
+
     // clear current weather and five day forecast
     currentWeather.innerHTML = "";
     fiveDayForecast.innerHTML = "";
     
     //first API call
-    var cityName = document.querySelector('#cityInput').value;
     var requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=a7715944e1c51c0dc7f0c45921d07581`
 
     fetch(requestUrl)
@@ -50,10 +55,11 @@ searchBtn.addEventListener('click', function(event) {
         });
         
     })
-})
+}
         // DOM manipulation to HTML;
         // current weather DOM to HTML
     function renderDailyForecast(oneCallData, cityName) {
+        renderPastSearches();
         
         const name = cityName
         const temp = oneCallData.current.temp;
@@ -86,24 +92,25 @@ searchBtn.addEventListener('click', function(event) {
             humidityEl, 
             uvIndexEl 
             );
-        
+        $(uvIndexEl).addClass('uvIndexEl')
         nameEl.textContent = "" + name;
         tempEl.textContent = "Temp: " + temp + " °F";
         windEl.textContent = "Wind: " + wind_speed + " MPH";
         humidityEl.textContent = "Humidity: " + humidity  + " %";
         uvIndexEl.textContent = "UV Index: " + uvi;
-
         // add function
-       if (uvi >= 0 && uvi <=2) {
-        $(this).addClass(".bg.success");
+       if (uvi <=3) {
+       $(".uvIndexEl").css({"padding": "5px", "background-color": "green", "width": "fit-content"});
+       console.log(uvi)
     }
-       else if (uvi >= 3 && uvi <= 5) {
-       $(this).removeClass(".bg.success");
-       $(this).addClass(".bg-warning");
+       else if (uvi <= 5) {
+        console.log(uvi)
+       $(".uvIndexEl").css({"padding": "5px", "background-color": "yellow", "width": "fit-content"});
+
     }
        else {
-        $(this).removeClass(".bg.warning");
-        $(this).addClass(".bg-danger");
+        $(".uvIndexEl").css({"padding": "5px", "background-color": "red", "width": "fit-content"});
+
     }
 }
     // create five day forecast cards
@@ -153,7 +160,7 @@ searchBtn.addEventListener('click', function(event) {
     listSearchedCities.innerHTML = "";
         for(let i = 0; i < pastSearches.length; i++) {
         const historyItem = document.createElement("input");
-        historyItem.setAttribute("class", "form-control d-block bg-white");
+        historyItem.setAttribute("class", "form-control d-block bg-white pastSearch");
         historyItem.setAttribute("value", pastSearches[i]);
         historyItem.addEventListener("click",function() {
             renderPastSearches(historyItem.value);
@@ -167,5 +174,17 @@ if (pastSearches.length > 0) {
 renderPastSearches(pastSearches[pastSearches.length - 1]);
 }
 
+$(".listSearchedCities").on('click', function(event) {
+    if(!event.target.matches('.pastSearch')) {
+        return;
+    }
 
+    var search = event.target.value;
+    initalSearch(search)
+})
+
+$('#deleteBtn').on('click', function() {
+    localStorage.clear();
+    location.reload();
+})
 
